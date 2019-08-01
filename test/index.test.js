@@ -10,8 +10,8 @@ describe('Oiq', function() {
   var analytics;
   var oiq;
   var options = {
-    data_group_id: 'inte',
-    tag_id: 'rcpt'
+    dataGroupId: '9nfdft',
+    tagId: '6qg2'
   };
 
   beforeEach(function() {
@@ -38,8 +38,8 @@ describe('Oiq', function() {
       analytics.compare(Oiq, integration('Oiq')
         .assumesPageview()
         .global('_oiqq')
-        .option('tag_id','')
-        .option('data_group_id',''));
+        .option('tagId','')
+        .option('dataGroupId',''));
     });
 
     describe('#initialize', function() {
@@ -70,7 +70,7 @@ describe('Oiq', function() {
         setTimeout(function() {
           analytics.assert(window._oiqq[0]);
           analytics.assert(window._oiqq[0][0] === 'oiq_addPageLifecycle');
-          analytics.assert(window._oiqq[0][1] === 'inte');
+          analytics.assert(window._oiqq[0][1] === '9nfdft');
         },1000);
       });
     });
@@ -95,7 +95,7 @@ describe('Oiq', function() {
 
           setTimeout(function() {
             analytics.assert(window._oiqq.map(function(kvp) {
-              return kvp[1][0] === 'oiq_addPageLifecycle' && kvp[1][1] === 'rcpt';
+              return kvp[1][0] === 'oiq_addPageLifecycle' && kvp[1][1] === '6qg2';
             }).length === 1);
 
             analytics.assert(window._oiqq.map(function(kvp) {

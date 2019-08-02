@@ -1,6 +1,6 @@
 {
-  "name": "@segment/analytics.js-integration-owneriq",
-  "description": "The Google Analytics analytics.js integration.",
+  "name": "@owneriq/analytics.js-integration-owneriq-pixel",
+  "description": "The OwnerIQ analytics.js integration.",
   "version": "1.0.0",
   "keywords": [
     "analytics.js",
@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/owneriq-dev/analytics.js-integration-owneriq.git"
   },
-  "author": "Segment <fye@owneriq.com>",
+  "author": "OwnerIQ <fye@owneriq.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/owneriq/analytics.js-owneriq/issues"
@@ -29,12 +29,13 @@
     "extend": "^3.0.1",
     "global-queue": "^1.0.1",
     "is": "^3.1.0",
+    "lodash": "^4.17.4",
+    "npmrc": "^1.1.1",
     "obj-case": "^0.2.0",
     "object-component": "0.0.3",
     "reject": "0.0.1",
     "segmentio-facade": "^3.1.0",
-    "use-https": "^0.1.1",
-    "lodash": "^4.17.4"
+    "use-https": "^0.1.1"
   },
   "devDependencies": {
     "@segment/analytics.js-core": "^3.0.0",
@@ -61,5 +62,9 @@
     "phantomjs-prebuilt": "^2.1.7",
     "to-array": "^0.1.4",
     "watchify": "^3.7.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }

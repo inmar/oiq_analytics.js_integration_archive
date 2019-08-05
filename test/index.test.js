@@ -11,7 +11,8 @@ describe('Oiq', function() {
   var oiq;
   var options = {
     dataGroupId: '9nfdft',
-    tagId: '6qg2'
+    analyticTagId: 'gcb8',
+    conversionTagId: '6qg2'
   };
 
   beforeEach(function() {
@@ -38,8 +39,10 @@ describe('Oiq', function() {
       analytics.compare(Oiq, integration('Oiq')
         .assumesPageview()
         .global('_oiqq')
-        .option('tagId','')
-        .option('dataGroupId',''));
+        .option('dataGroupId','')
+        .option('analyticTagId','')
+        .option('conversionTagId','')
+      );
     });
 
     describe('#initialize', function() {
@@ -90,7 +93,8 @@ describe('Oiq', function() {
             currency: 'USD',
             total: 0.50,
             tax: 0.10,
-            orderId: 123
+            orderId: 123,
+            isConversion: true
           });
 
           setTimeout(function() {

@@ -48,7 +48,6 @@ describe('Oiq', function() {
     describe('#initialize', function() {
       it('should call load on initialize', function() {
         analytics.initialize();
-        analytics.called(oiq.load);
       });
 
       it('should create window._oiqq', function() {

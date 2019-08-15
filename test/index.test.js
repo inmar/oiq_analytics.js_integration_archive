@@ -1,19 +1,20 @@
 'use strict';
 
 var Analytics = require('@segment/analytics.js-core').constructor;
+var integration = require('@segment/analytics.js-integration');
 var sandbox = require('@segment/clear-env');
 var tester = require('@segment/analytics.js-integration-tester');
-var integration = require('@segment/analytics.js-integration');
 var Oiq = require('../lib/');
 
-describe('Oiq', function() {
+describe('Oiq Conversion Tracking', function() {
   var analytics;
   var oiq;
   var options = {
     dataGroupId: '9nfdft',
     analyticTagId: 'gcb8',
-    conversionTagId: '6qg2'
+    dctTagId: '6qg2'
   };
+
 
   beforeEach(function() {
     analytics = new Analytics();
@@ -30,30 +31,16 @@ describe('Oiq', function() {
     sandbox();
   });
 
-  describe('before loading', function() {
-    beforeEach(function() {
-      analytics.stub(oiq, 'load');
-    });
+  it('should have the correct settings', function() {
+    analytics.compare(Oiq, integration('OwnerIQ Pixel')
+      .option('dataGroupId','')
+      .option('analyticTagId','')
+      .option('dctTagId',''));
+  });
 
-    it('should have the right settings', function() {
-      analytics.compare(Oiq, integration('Oiq')
-        .assumesPageview()
-        .global('_oiqq')
-        .option('dataGroupId','')
-        .option('analyticTagId','')
-        .option('conversionTagId','')
-      );
-    });
-
-    describe('#initialize', function() {
-      it('should call load on initialize', function() {
-        analytics.initialize();
-      });
-
-      it('should create window._oiqq', function() {
-        analytics.initialize();
-        analytics.assert(window._oiqq);
-      });
+  describe('loading', function() {
+    it('should load', function(done) {
+      analytics.load(oiq, done);
     });
   });
 
@@ -61,6 +48,7 @@ describe('Oiq', function() {
     beforeEach(function(done) {
       analytics.once('ready', done);
       analytics.initialize();
+      analytics.page();
     });
 
     describe('#page', function() {
@@ -68,16 +56,13 @@ describe('Oiq', function() {
         analytics.stub(window._oiqq, 'push');
       });
 
-      it('should track a pageview', function() {
-        setTimeout(function() {
-          analytics.assert(window._oiqq[0]);
-          analytics.assert(window._oiqq[0][0] === 'oiq_addPageLifecycle');
-          analytics.assert(window._oiqq[0][1] === '9nfdft');
-        },1000);
+      it('should track page', function() {
+        analytics.page({ url: 'http://localhost:34448/test/' });
+        analytics.called(window._oiqq.push, [['oiq_addPageLifecycle', 'gcb8']]);
       });
     });
 
-    describe('#track', function() {
+    describe('#OrderCompleted', function() {
       beforeEach(function() {
         analytics.stub(window._oiqq, 'push');
       });
@@ -86,7 +71,7 @@ describe('Oiq', function() {
         it('should track dct data', function() {
           analytics.track('Order Completed', {
             products: [
-              { product_id: '507f1f77bcf86cd799439011' },
+              { product_id: '507f1f77bcf86cd799439011', brand: 'Test Brand 1' },
               { product_id: '505bd76785ebb509fc183733' }
             ],
             currency: 'USD',
@@ -96,38 +81,10 @@ describe('Oiq', function() {
             isConversion: true
           });
 
-          setTimeout(function() {
-            analytics.assert(window._oiqq.map(function(kvp) {
-              return kvp[1][0] === 'oiq_addPageLifecycle' && kvp[1][1] === '6qg2';
-            }).length === 1);
-
-            analytics.assert(window._oiqq.map(function(kvp) {
-              return kvp[1][0] === 'order_id';
-            }).length === 1);
-            analytics.assert(window._oiqq.filter(function(kvp) {
-              return kvp[1][0] === 'order_id';
-            })[1][1] === 123);
-
-            analytics.assert(window._oiqq.map(function(kvp) {
-              return kvp[1][0] === 'total_cost_notax';
-            }).length === 1);
-            analytics.assert(window._oiqq.filter(function(kvp) {
-              return kvp[1][0] === 'total_cost_notax';
-            })[1][1] === 0.5);
-
-            analytics.assert(window._oiqq.map(function(kvp) {
-              return kvp[1][0] === 'total_cost_tax';
-            }).length);
-            analytics.assert(window._oiqq.filter(function(kvp) {
-              return kvp[1][0] === 'total_cost_tax';
-            })[1][1] === 0.6);
-
-            analytics.assert(window._oiqq.map(function(kvp) {
-              return kvp[0] === 'oiq_doTag';
-            }).length === 1);
-          }, 1000);
+          analytics.called(window._oiqq.push, [['oiq_addPageLifecycle','6qg2']]);
         });
       });
     });
   });
 });
+

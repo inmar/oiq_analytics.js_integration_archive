@@ -1,7 +1,7 @@
 {
   "name": "@owneriq/analytics.js-integration-owneriq-pixel",
   "description": "The OwnerIQ analytics.js integration.",
-  "version": "1.0.6",
+  "version": "1.0.9",
   "keywords": [
     "analytics.js",
     "analytics.js-integration",

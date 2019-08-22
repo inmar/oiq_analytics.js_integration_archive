@@ -33,6 +33,7 @@ describe('Oiq Conversion Tracking', function() {
 
   it('should have the correct settings', function() {
     analytics.compare(Oiq, integration('OwnerIQ Pixel')
+      .assumesPageview()
       .option('dataGroupId','')
       .option('analyticTagId','')
       .option('dctTagId',''));

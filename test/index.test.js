@@ -59,7 +59,7 @@ describe('Oiq Conversion Tracking', function() {
 
       it('should track page', function() {
         analytics.page({ url: 'http://localhost:34448/test/' });
-        analytics.called(window._oiqq.push, [['oiq_addPageLifecycle', 'gcb8']]);
+        analytics.called(window._oiqq.push, ['oiq_addPageLifecycle', 'gcb8']);
       });
     });
 
@@ -82,7 +82,7 @@ describe('Oiq Conversion Tracking', function() {
             isConversion: true
           });
 
-          analytics.called(window._oiqq.push, [['oiq_addPageLifecycle','6qg2']]);
+          analytics.called(window._oiqq.push, ['oiq_addPageLifecycle','6qg2']);
         });
       });
     });
